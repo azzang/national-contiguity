@@ -36,7 +36,7 @@
   <div class="flags"></div>
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script>
-
+  
   var svg = d3.select('body').append('svg');
   var tooltip = d3.select('.tooltip');
   var width = window.innerWidth || 1000;
@@ -50,7 +50,7 @@
   svg.attr('width', width)
      .attr('height', height);
 
-  d3.json('countries.json', function(error, graph) {
+  d3.json('countries.json', function (error, graph) {
     if (error) throw error;
 
     var link = svg.append('g')
@@ -65,15 +65,17 @@
                  .data(graph.nodes)
                  .enter()
                  .append('img')
-                 .attr('class', function(d) { return 'flag flag-' + d.code; })
-                 .on('mouseover', function(d) {
+                 .attr('class', function (d) { return 'flag flag-' + d.code; })
+                 .on('mouseover', function (d) {
                    tooltip.style('left', d.x + 'px')
-                          .style('top', d.y - 40 + 'px')
+                          .style('top', (d.y - 40) + 'px')
                           .text(d.country)
                           .style('display', 'inline');
-                 }).on('mouseout', function() {
+                 })
+                 .on('mouseout', function () {
                    tooltip.style('display', 'none');
-                 }).call(d3.drag()
+                 })
+                 .call(d3.drag()
                          .on('start', dragstarted)
                          .on('drag', dragged)
                          .on('end', dragended));
@@ -86,14 +88,14 @@
 
     function ticked() {
       link
-          .attr('x1', function(d) { return d.source.x; })
-          .attr('y1', function(d) { return d.source.y; })
-          .attr('x2', function(d) { return d.target.x; })
-          .attr('y2', function(d) { return d.target.y; });
+          .attr('x1', function (d) { return d.source.x; })
+          .attr('y1', function (d) { return d.source.y; })
+          .attr('x2', function (d) { return d.target.x; })
+          .attr('y2', function (d) { return d.target.y; });
 
       node
-          .style('left', d => (d.x - 8) + 'px')
-          .style('top', d => (d.y - 5) + 'px');
+          .style('left', function (d) { return (d.x - 8) + 'px'; })
+          .style('top', function (d) { return (d.y - 5) + 'px'; });
     }
   });
 
